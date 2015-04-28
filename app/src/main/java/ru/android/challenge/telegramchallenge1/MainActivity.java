@@ -1,6 +1,9 @@
 package ru.android.challenge.telegramchallenge1;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -8,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import org.drinkless.td.libcore.telegram.*;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -32,11 +37,26 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    public class Handler implements Client.ResultHandler {
+
+        @Override
+        public void onResult(TdApi.TLObject object) {
+            Log.d("Hello", "World");
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        TG.setDir(getFilesDir().toString());
+        TG.setUpdatesHandler(new Handler());
+        try {
+            Client client = TG.getClientInstance();
+            TG.stopClient();
+        } catch(Exception e) {
+            Log.d("error", e.getMessage());
+        }
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
