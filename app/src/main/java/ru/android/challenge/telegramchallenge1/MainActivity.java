@@ -1,18 +1,12 @@
 package ru.android.challenge.telegramchallenge1;
 
 import android.app.Activity;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import org.drinkless.td.libcore.telegram.*;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+
+import ru.android.challenge.telegramchallenge1.fragments.NavigationDrawerFragment;
 
 
 public class MainActivity extends ActionBarActivity
@@ -53,6 +47,8 @@ public class MainActivity extends ActionBarActivity
         TG.setUpdatesHandler(new Handler());
         try {
             Client client = TG.getClientInstance();
+            TdApi.AuthSendSms sms = new TdApi.AuthSendSms();
+            sms.getConstructor();
             TG.stopClient();
         } catch(Exception e) {
             Log.d("error", e.getMessage());

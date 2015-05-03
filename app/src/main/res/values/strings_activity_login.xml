@@ -1,0 +1,8 @@
+<resources>
+    <string name="sms_note">We will send an SMS with a confirmation code to your number.</string>
+    <string name="sms_note_receive">We\'ve sent an SMS with an activation code to your phone &lt;b>%1$s&lt;/b></string>
+    <string name="call_me">We will call you in %1$s</string>
+    <string name="wrong_number">Wrong number?</string>
+    <string name="title_activity_login">Your phone</string>
+    <string name="code">Code</string>
+</resources>
