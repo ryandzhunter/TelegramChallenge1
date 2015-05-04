@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,35 @@ public class LoginFragment extends Fragment {
         phoneCodeEdit = (EditText) view.findViewById(R.id.countryCode);
         EditText phoneNumber = (EditText) view.findViewById(R.id.phoneNumber);
         onChangeCountry();
+        phoneCodeEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    phoneCodeEdit.setText("+");
+                    phoneCodeEdit.setSelection(1);
+                    return;
+                }
+                onChangePhoneCode(s.toString().substring(1, s.length()));
+            }
+        });
+
+        //need to change
+        phoneCodeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phoneCodeEdit.setSelection(Math.max(1, phoneCodeEdit.getSelectionStart()));
+            }
+        });
 
         phoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,6 +115,22 @@ public class LoginFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void onChangePhoneCode(String code) {
+        if (code.length() == 0) {
+            countryButton.setText(getString(R.string.choose_a_country));
+            return;
+        }
+        ArrayList<Country> countries = CountryManager.getCountries(mContext);
+        for (int i = countries.size() - 1; i >= 0; --i) {
+            if (countries.get(i).getPhoneCode().equals(code)) {
+                CountryManager.setCurrentCountry(countries.get(i));
+                countryButton.setText(CountryManager.getCurrentCountry().getCountryName());
+                return;
+            }
+        }
+        countryButton.setText(getString(R.string.wrong_country_code));
     }
 
     public void onChangeCountry() {

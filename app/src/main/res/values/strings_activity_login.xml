@@ -5,4 +5,6 @@
     <string name="wrong_number">Wrong number?</string>
     <string name="title_activity_login">Your phone</string>
     <string name="code">Code</string>
+    <string name="wrong_country_code">Wrong country code</string>
+    <string name="choose_a_country">Choose a country</string>
 </resources>

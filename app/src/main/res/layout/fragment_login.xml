@@ -23,6 +23,9 @@
         <EditText
             android:layout_width="69dp"
             android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:digits="0123456789"
+            android:maxLength="5"
             android:id="@+id/countryCode" />
 
         <EditText
