@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import ru.android.challenge.telegramchallenge1.CountryManager;
 import ru.android.challenge.telegramchallenge1.CountrySelectionActivity;
 import ru.android.challenge.telegramchallenge1.entities.Country;
+import ru.android.challenge.telegramchallenge1.views.PhoneCodeEditText;
 import ru.android.challenge.telegramchallenge1.R;
 
 
@@ -64,7 +65,7 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_login, container, false);
         countryButton = (Button) view.findViewById(R.id.countryButton);
-        phoneCodeEdit = (EditText) view.findViewById(R.id.countryCode);
+        phoneCodeEdit = (PhoneCodeEditText) view.findViewById(R.id.countryCode);
         EditText phoneNumber = (EditText) view.findViewById(R.id.phoneNumber);
         onChangeCountry();
         phoneCodeEdit.addTextChangedListener(new TextWatcher() {
@@ -80,20 +81,13 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0) {
-                    phoneCodeEdit.setText("+");
+                if (s.length() == 0 || s.charAt(0) != '+') {
+                    phoneCodeEdit.setText("+" + s.toString());
                     phoneCodeEdit.setSelection(1);
                     return;
+                } else {
+                    onChangePhoneCode(s.toString().substring(1, s.length()));
                 }
-                onChangePhoneCode(s.toString().substring(1, s.length()));
-            }
-        });
-
-        //need to change
-        phoneCodeEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phoneCodeEdit.setSelection(Math.max(1, phoneCodeEdit.getSelectionStart()));
             }
         });
 
