@@ -1,38 +1,44 @@
 package ru.android.challenge.telegramchallenge1;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import ru.android.challenge.telegramchallenge1.adapters.LoginFragmentPagerAdapter;
 import ru.android.challenge.telegramchallenge1.entities.Country;
 import ru.android.challenge.telegramchallenge1.fragments.LoginFragment;
 import ru.android.challenge.telegramchallenge1.fragments.ReceiveCodeFragment;
+import ru.android.challenge.telegramchallenge1.receivers.CodeSmsReceiver;
 import ru.android.challenge.telegramchallenge1.views.NonSwipeableViewPager;
-
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends ActionBarActivity implements LoginFragment.OnPhoneNumberListener,
+public class LoginActivity extends AppCompatActivity implements LoginFragment.OnPhoneNumberListener,
         ReceiveCodeFragment.OnCodeReceiveListener {
     private ArrayList<Country> countries;
     private Country currentCountry;
     private NonSwipeableViewPager mViewPager;
     private LoginFragmentPagerAdapter mPagerAdapter;
+    private IntentFilter filter = new IntentFilter(CodeSmsReceiver.NEW_SMS);
+    private CodeSmsReceiver receiver = new CodeSmsReceiver();
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(receiver);
+        super.onPause();
+    }
 
     private void loadCountries() {
         countries = CountryManager.getCountries(this);

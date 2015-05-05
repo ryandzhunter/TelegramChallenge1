@@ -128,8 +128,8 @@ public class LoginFragment extends Fragment {
     }
 
     public void onChangeCountry() {
-        countryButton.setText(CountryManager.getCurrentCountry().getCountryName());
         phoneCodeEdit.setText("+" + CountryManager.getCurrentCountry().getPhoneCode());
+        countryButton.setText(CountryManager.getCurrentCountry().getCountryName());
     }
 
     public void onButtonPressed(String phone) {
